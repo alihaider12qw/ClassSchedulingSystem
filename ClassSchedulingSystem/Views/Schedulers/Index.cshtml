@@ -1,0 +1,92 @@
+﻿@model IEnumerable<ClassSchedulingSystem.Models.Scheduler>
+
+@{
+    ViewBag.Title = "Weekly Timetable";
+}
+
+<h2>Weekly Schedule</h2>
+
+<p>
+    @Html.ActionLink("Auto Schedule new Class", "Create")
+</p>
+<p style="float:right">
+    @Html.ActionLink("Logout", "Logout", "Login")
+</p>
+<table class="table" id="myTable">
+    <tr>
+        <th>Subject</th>
+        <th>Teacher Name</th>
+        <th>Day of Week</th>
+        <th>Class timings</th>
+        <th>Class Room #</th>
+        <th>Functions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DayWeek)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+                Till
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Room.RoomID)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<p><button class="btn btn-primary" onclick="sortTable()">Sort</button></p>
+
+<script>
+    function sortTable() {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("myTable");
+        switching = true;
+        /*Make a loop that will continue until
+        no switching has been done:*/
+        while (switching) {
+            //start by saying: no switching is done:
+            switching = false;
+            rows = table.getElementsByTagName("TR");
+            /*Loop through all table rows (except the
+            first, which contains table headers):*/
+            for (i = 1; i < (rows.length - 1) ; i++) {
+                //start by saying there should be no switching:
+                shouldSwitch = false;
+                /*Get the two elements you want to compare,
+                one from current row and one from the next:*/
+                x = rows[i].getElementsByTagName("TD")[2];
+                y = rows[i + 1].getElementsByTagName("TD")[2];
+                //check if the two rows should switch place:
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    //if so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                /*If a switch has been marked, make the switch
+                and mark that a switch has been done:*/
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+    }
+</script>

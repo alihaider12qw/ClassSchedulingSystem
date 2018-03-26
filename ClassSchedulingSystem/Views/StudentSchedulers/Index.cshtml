@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ClassSchedulingSystem.Models.Scheduler>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<p style="float:right">
+    @Html.ActionLink("Logout", "Logout", "Login")
+</p>
+
+<table class="table">
+    <tr>
+        <th>Subject</th>
+        <th>Teacher Name</th>
+        <th>Day Of the Week</th>
+        <th>Class Timing</th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.Room.Seats)
+            </th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DayWeek)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime) Till
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+        </tr>
+    }
+
+</table>
